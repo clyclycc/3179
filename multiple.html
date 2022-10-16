@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <title>Multiple Visualisations | An Example</title>
@@ -7,6 +7,8 @@
   <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <script src="vega_lite_vis.js"></script>
 
   <!-- Import pure.css -->
   <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
@@ -19,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
   <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" media="all">
 
 
 </head>
@@ -102,8 +104,8 @@
   </div> <!-- end page -->
 
   <script type="text/javascript">
-    var specVis1 = "./column.json";
-    var specVis2 = "./mapgraph.json";
+    var specVis1 = "/area.json";
+    var specVis2 = "/column.json";
 
     vegaEmbed('#vis1', specVis1, { "actions": false });
 
