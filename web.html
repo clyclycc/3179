@@ -4,16 +4,85 @@
   <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+  
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+  integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+ <link rel="stylesheet"  href="./css/style.css" media="all" type="text/css">
+ 
+
 </head>
 <body>
+  <div class="page">
+
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h1>Russia Real Estate visualization </h1>
+        <p>visualization of the Russian real estate market .</p>
+      </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <div class="description description-left">
+          <h2>The Russian real estate market distribution </h2>
+          <p>The Russian real estate market has a relatively short history, in this map it contain the real estate sales happen within 2018-2021 year, by using the fillet to move the price range to explore the relationship between price and region </p>
+        </div>
+        
+
   <div id="vis"/>
   <script>
     const spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 800,
     "height": 450,
+    "params":[
+        {
+            "name": "zoom_level",
+            "value": 1000,
+            "bind": {
+              "input": "range",
+              "min": 350,
+              "max": 30000,
+              "step": 50,
+              "name": "Zoom: "
+            }
+          },
+          {
+            "name": "center_to",
+            "value": [103, 62.41],
+            "bind": {
+              "input": "select",
+              "options": [
+                [103, 62.41],
+                [147, 62.41],
+                [46.69, 62.41]
+              
+              ],
+              "labels": ["middle","left Russia", "right Russia"],
+              "name": "Map Centre: "
+            }
+          },
+          {
+            "name": "pricerange",
+            "value": 0,
+            "bind": {
+              "input": "range",
+              "min": 0,
+              "max": 6500000,
+              "step": 100,
+              "name": "pricerange: "
+            }
+          }
+        ],
+       
+
     "title": "Russia Real Estate distribution",
-    "projection": {"type": "equalEarth"},
+    "projection": {"type": "equalEarth" ,"center": {"expr": "center_to"},
+    "scale": {"expr": "zoom_level"}},
     "layer": [
     {
     "data": {
@@ -25,12 +94,18 @@
     "mark": {"type": "geoshape", "fill": "lightgray", "stroke":
     "white"}
     },
+    
     {
         "data": {
         "url":
         "https://raw.githubusercontent.com/clyclycc/3179/main/part%20data.csv"
         },
         "mark": {"type": "circle", "tooltip": {"content": "data"}},
+        "transform": [
+           
+            {"filter": "datum.price > pricerange"}
+           
+          ],  
         "encoding": {
         "longitude": {"field": "geo_lon", "type":
         "quantitative"},
@@ -39,9 +114,10 @@
         "size": {
         "field": "region",
         "type": "quantitative",
-        "title": "Magnitude (Richter scale)"
+        "title": "Magnitude "
 
         },
+        
         "color": {
         "field": "region",
         "type": "quantitative",
@@ -50,11 +126,19 @@
         }
         }
         }
+        
         ],
   "config": {}
 };
 vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
   </script>
+
+<div class="pure-g">
+  <div class="pure-u-1-2">
+    <div class="description description-left">
+      <h2>The Russian real estate price changing </h2>
+      <p>the map reveal the house price changing over time  </p>
+    </div>
 <div id="vis2"/>
   <script>
     const spec2 = {
@@ -67,6 +151,16 @@ vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.war
     },
     "mark": "area",
     "encoding": {
+
+      "tooltip": [
+            {"field": "region", "type": "nominal", "title": "Suburb"},
+            {
+              "field": "price",
+              "aggregate":"average",
+              "type": "quantitative",
+              "title": "Price",
+              "format": ","
+            }],
         "x": {"timeUnit": "yearmonth", "field": "date", "axis": {"format": "%x"}},
 
     
@@ -76,13 +170,11 @@ vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.war
     "type": "quantitative"
     },
     "color": {
-    "field": "Continent",
-    "type": "nominal"},
-    "size": {
-    "field": "Population",
-    "type": "quantitative",
-    "scale": {"type": "log", "domain": [1, 1000000]}
+        "field": "region",
+        "type": "ordinal"
+        
     }
+    
 
     }
         ,
@@ -91,6 +183,15 @@ vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.war
   vegaEmbed("#vis2", spec2, {mode: "vega-lite"}).then(console.log).catch(console.warn);
   
   </script>
+
+<div class="pure-g">
+  <div class="pure-u-1-2">
+    <div class="description description-left">
+      <h2>The Russian real estate area size relate with region </h2>
+      <p>Here showcase the relationship of the house size with the different region in Russia  </p>
+    </div>
+
+
   <div id="vis3"/>
   <script>
     const spec3 = {
@@ -98,18 +199,58 @@ vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.war
     "width": 800,
     "height": 600,
     "data": {"url": "https://raw.githubusercontent.com/clyclycc/3179/main/part%20data.csv"},
-    "mark": {"type": "circle"},
+    "mark": {"type": "point", "thickness": 3},
+    
     "encoding": {
+
+      "tooltip": [
+        {"field": "region", "type": "nominal", "title": "Suburb"},
+        {
+          "field": "area",
+          "aggregate":"average",
+          "type": "quantitative",
+          "title": "area",
+          "format": ","
+        }],
+      
       "x": { "field": "region", "type": "ordinal"},
-      "y": {"field": "area", "type": "quantitative","scale": {"domain": [0,500]}},
-      "color": {"field": "continent"}
-    }
+      "y": {"field": "area", "type": "quantitative","aggregate": "mean","scale": {"domain": [0,500]}},
+      "size": {"field": "price","type": "quantitative", "scale":{"domain": [0,400000000]}}}
         ,
   "config": {}
 };
   vegaEmbed("#vis3", spec3, {mode: "vega-lite"}).then(console.log).catch(console.warn);
   
   </script>
-
+<div class="pure-g">
+  <div class="pure-u-1-2">
+    <div class="description description-left">
+      <h2>The Russian real estate price changing </h2>
+      <p>The Russian real estate market has a relatively short history, in this map it contain the real estate sales happen within 2018-2021 year, by using the fillet to move the price range to explore the relationship between price and region </p>
+    </div>
 </body>
 </html>
+
+
+<div id="vis4"/>
+  <script>
+    const spec4 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 600,
+    
+    "data": {"url": "https://raw.githubusercontent.com/clyclycc/3179/main/part%20data.csv"},
+    
+    "mark": {"type": "line", "thickness": 3,"clip": true},
+
+    "encoding": {
+      
+      "x": { "field": "region", "type": "ordinal"},
+      "y": {    "field": "price","type": "quantitative", "aggregate":"average","scale":{ "domain": [100000,20000000]}}
+    
+    
+  }
+    ,
+  "config": {}
+};
+  vegaEmbed("#vis4", spec4, {mode: "vega-lite"}).then(console.log).catch(console.warn); </script>
