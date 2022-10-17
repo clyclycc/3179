@@ -1,0 +1,56 @@
+
+.pure-u-1-1{
+    background-color: orange;
+}
+body *{
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    font-weight: 900;
+    text-align: center;
+    
+}
+
+body {
+    
+    background: url("ima/bg2.jpg") no-repeat center fixed;     
+    background-size: cover;
+    
+    background-color: lightgray;
+}
+
+.page {
+    width: 850px;
+    background-color: wheat;
+    margin: auto;
+    padding: 50px;
+    padding-top: 35px;
+    text-align: center;
+}
+
+.vis-container {
+    width: 100%;
+}
+
+
+h1 {
+    margin-top: 0px;
+    text-align: center;
+}
+
+.description-right {
+    padding-left: 20px;
+}
+
+.description-left {
+    padding-right: 20px;
+}
+
+.pure-g {
+    margin-bottom: 40px;
+}
+
+.small-font {
+    font-size: 14px;
+}
