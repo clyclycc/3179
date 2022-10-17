@@ -1,0 +1,22 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500,
+    "height": 400,
+    "title": "Russia Real Estate price changing",
+    "data": {
+    "url": "https://raw.githubusercontent.com/clyclycc/3179/main/part%20data.csv"
+    },
+    "mark": "area",
+    "encoding": {
+        "x": {"timeUnit": "yearmonth", "field": "date", "axis": {"format": "%x"}},
+
+    
+    "y": {
+    "aggregate":"average",
+    "field": "price",
+    "type": "quantitative"
+    }
+
+    }
+    }
+    
