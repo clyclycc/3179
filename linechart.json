@@ -1,0 +1,15 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 600,
+    
+    "data": {"url": "https://raw.githubusercontent.com/clyclycc/3179/main/part%20data.csv"},
+    
+    "mark": {"type": "line", "thickness": 3,"clip": true},
+
+    "encoding": {
+      "x": { "field": "region", "type": "ordinal"},
+      "y": {    "field": "price","type": "quantitative", "aggregate":"average","scale":{ "domain": [100000,20000000]}}
+    
+    
+  }}
